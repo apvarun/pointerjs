@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PointerJS LLM Observability Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../src/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      /* Hide scrollbars for a cleaner look */
+      ::-webkit-scrollbar {
+        width: 8px;
+        background: #181c23;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #23272f;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body class="bg-[#181c23] min-h-screen">
+    <div class="flex min-h-screen">
+      <!-- Sidebar -->
+      <aside
+        class="flex flex-col justify-between bg-[#1a1d23] w-64 p-6 border-r border-[#23272f]"
+      >
+        <div>
+          <div class="flex items-center gap-3 mb-10" id="onb-logo">
+            <span class="text-white text-xl font-bold tracking-wide"
+              >LLM Observe</span
+            >
+          </div>
+          <nav class="flex flex-col gap-2 mt-4">
+            <a
+              href="#"
+              class="flex items-center gap-3 px-4 py-2 rounded-lg text-white bg-[#23272f] font-semibold"
+              id="onb-dashboard"
+            >
+              <span>
+                <svg
+                  class="w-5 h-5 inline"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"
+                  />
+                </svg>
+              </span>
+              Dashboard
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-400 hover:bg-[#23272f]"
+              id="onb-team"
+            >
+              <span>
+                <svg
+                  class="w-5 h-5 inline"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M17 20h5v-2a4 4 0 0 0-3-3.87M9 20H4v-2a4 4 0 0 1 3-3.87M16 3.13a4 4 0 1 1-8 0"
+                  />
+                </svg>
+              </span>
+              Models
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-400 hover:bg-[#23272f]"
+            >
+              <span>
+                <svg
+                  class="w-5 h-5 inline"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M3 3h18v18H3V3zm3 3v12h12V6H6z" />
+                </svg>
+              </span>
+              Usage
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-400 hover:bg-[#23272f]"
+            >
+              <span>
+                <svg
+                  class="w-5 h-5 inline"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"
+                  />
+                </svg>
+              </span>
+              Latency
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-400 hover:bg-[#23272f]"
+            >
+              <span>
+                <svg
+                  class="w-5 h-5 inline"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                  />
+                </svg>
+              </span>
+              Errors
+            </a>
+            <a
+              href="#"
+              class="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-400 hover:bg-[#23272f]"
+            >
+              <span>
+                <svg
+                  class="w-5 h-5 inline"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M9 17v-6h6v6m-6 0v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2"
+                  />
+                </svg>
+              </span>
+              Feedback
+            </a>
+          </nav>
+        </div>
+        <div class="flex flex-col gap-2">
+          <a
+            href="#"
+            class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-400 hover:bg-[#23272f]"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 16v-4" />
+              <path d="M12 8h.01" />
+            </svg>
+            Help Center
+          </a>
+          <a
+            href="#"
+            class="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-400 hover:bg-[#23272f]"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 4v16m8-8H4" />
+            </svg>
+            Settings
+          </a>
+        </div>
+      </aside>
+      <!-- Main Content -->
+      <div class="flex-1 flex flex-col min-w-0">
+        <!-- Top Bar -->
+        <header
+          class="flex items-center justify-between h-16 px-8 bg-[#23272f] border-b border-[#23272f]"
+        >
+          <div class="flex items-center gap-4">
+            <span class="text-gray-300 text-sm font-semibold"
+              >LLM Observability Dashboard</span
+            >
+          </div>
+          <div class="flex items-center gap-4">
+            <input
+              type="text"
+              placeholder="Search models, logs, users..."
+              class="bg-[#181c23] text-gray-200 px-4 py-2 rounded-lg border border-[#23272f] focus:outline-none focus:ring-2 focus:ring-blue-500 w-64"
+            />
+            <button
+              class="bg-[#23272f] text-gray-400 px-3 py-2 rounded-lg hover:bg-[#181c23]"
+            >
+              ☀️ °F
+            </button>
+            <div class="flex items-center gap-2">
+              <div
+                class="w-9 h-9 flex items-center justify-center rounded-full border-2 border-blue-500 bg-blue-700 text-white text-lg font-semibold"
+                aria-label="User Initial"
+              >
+                J
+              </div>
+              <div class="flex flex-col">
+                <span class="text-white text-sm font-semibold">John Doe</span>
+                <span class="text-gray-400 text-xs">ML Engineer</span>
+              </div>
+            </div>
+          </div>
+        </header>
+        <!-- Content Area -->
+        <main class="flex-1 p-8 flex flex-col gap-6 bg-[#181c23]">
+          <!-- Banner -->
+          <div
+            class="bg-[#23272f] rounded-xl p-6 flex items-center justify-between shadow mb-2"
+          >
+            <div>
+              <div class="text-white text-lg font-semibold mb-1">
+                Monitor Your LLMs in Real Time
+              </div>
+              <div class="text-gray-400 text-sm max-w-xl">
+                Track usage, latency, errors, and user feedback for all your
+                deployed LLMs. Get instant alerts and actionable insights to
+                ensure reliability and performance.
+              </div>
+            </div>
+            <button
+              class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold shadow hover:bg-blue-700 transition"
+              id="onb-learn-more"
+            >
+              Learn more
+            </button>
+          </div>
+          <!-- Cards Row -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div
+              class="bg-[#23272f] rounded-xl p-6 flex flex-col gap-2 shadow"
+              id="onb-employees"
+            >
+              <div class="text-gray-400 text-sm font-semibold">
+                Total Requests
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-2xl text-cyan-400 font-bold">1,245,000</span>
+                <span class="text-xs text-gray-500">Last 24h: 98,000</span>
+                <span class="ml-auto text-green-400 text-xs font-semibold"
+                  >+3.2%</span
+                >
+              </div>
+            </div>
+            <div
+              class="bg-[#23272f] rounded-xl p-6 flex flex-col gap-2 shadow"
+              id="onb-new-employees"
+            >
+              <div class="text-gray-400 text-sm font-semibold">
+                Avg. Latency
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-2xl text-blue-400 font-bold">1.23s</span>
+                <span class="text-xs text-gray-500">P95: 2.10s</span>
+                <span class="ml-auto text-yellow-400 text-xs font-semibold"
+                  >-0.4%</span
+                >
+              </div>
+            </div>
+            <div
+              class="bg-[#23272f] rounded-xl p-6 flex flex-col gap-2 shadow"
+              id="onb-satisfaction"
+            >
+              <div class="text-gray-400 text-sm font-semibold">Error Rate</div>
+              <div class="flex items-center gap-2">
+                <span class="text-2xl text-red-400 font-bold">0.82%</span>
+                <span class="ml-auto text-green-400 text-xs font-semibold"
+                  >-0.1%</span
+                >
+              </div>
+            </div>
+            <div
+              class="bg-[#23272f] rounded-xl p-6 flex flex-col gap-2 shadow"
+              id="onb-interviews"
+            >
+              <div class="text-gray-400 text-sm font-semibold">
+                User Feedback
+              </div>
+              <div class="flex flex-col gap-1 mt-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-white text-sm">Jane Smith</span>
+                  <span
+                    class="ml-auto text-xs text-green-400 bg-green-900/40 px-2 py-0.5 rounded"
+                    >👍 Positive</span
+                  >
+                  <span class="text-xs text-gray-400">"Great results!"</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-white text-sm">John Doe</span>
+                  <span
+                    class="ml-auto text-xs text-red-400 bg-red-900/40 px-2 py-0.5 rounded"
+                    >👎 Negative</span
+                  >
+                  <span class="text-xs text-gray-400">"Too slow."</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-white text-sm">Alice Lee</span>
+                  <span
+                    class="ml-auto text-xs text-green-400 bg-green-900/40 px-2 py-0.5 rounded"
+                    >👍 Positive</span
+                  >
+                  <span class="text-xs text-gray-400">"Very helpful!"</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Chart Row -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div
+              class="bg-[#23272f] rounded-xl p-6 shadow flex flex-col gap-4"
+              id="onb-chart"
+            >
+              <div class="text-gray-400 text-sm font-semibold mb-2">
+                Requests & Errors Over Time
+              </div>
+              <div class="h-40 w-full flex items-center justify-center">
+                <!-- Chart Placeholder -->
+                <svg width="100%" height="100%" viewBox="0 0 400 120">
+                  <rect
+                    x="0"
+                    y="0"
+                    width="400"
+                    height="120"
+                    rx="12"
+                    fill="#20232a"
+                  />
+                  <polyline
+                    fill="none"
+                    stroke="#06b6d4"
+                    stroke-width="3"
+                    points="0,80 40,60 80,90 120,50 160,70 200,40 240,60 280,30 320,60 360,40 400,80"
+                  />
+                  <polyline
+                    fill="none"
+                    stroke="#ef4444"
+                    stroke-width="3"
+                    points="0,100 40,80 80,110 120,70 160,90 200,60 240,80 280,50 320,80 360,60 400,100"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              class="bg-[#23272f] rounded-xl p-6 shadow flex flex-col gap-4"
+              id="onb-today-performance"
+            >
+              <div class="text-gray-400 text-sm font-semibold mb-2">
+                Token Usage
+              </div>
+              <div class="flex items-center gap-4">
+                <svg width="90" height="90" viewBox="0 0 36 36">
+                  <path
+                    fill="#23272f"
+                    d="M18 2.0845a 15.9155 15.9155 0 1 0 0.00001 31.831a 15.9155 15.9155 0 1 0 -0.00001 -31.831"
+                  />
+                  <path
+                    fill="none"
+                    stroke="#06b6d4"
+                    stroke-width="3"
+                    stroke-dasharray="72, 100"
+                    d="M18 2.0845a 15.9155 15.9155 0 1 1 0 31.831a 15.9155 15.9155 0 1 1 0 -31.831"
+                  />
+                  <text
+                    x="18"
+                    y="20.35"
+                    fill="#fff"
+                    font-size="8"
+                    text-anchor="middle"
+                  >
+                    2.3M
+                  </text>
+                </svg>
+                <div class="flex flex-col">
+                  <span class="text-white text-2xl font-bold">2,300,000</span>
+                  <span class="text-green-400 text-xs font-semibold"
+                    >+4.1% vs. yesterday</span
+                  >
+                  <span class="text-gray-400 text-xs"
+                    >Total tokens processed today</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Table Row -->
+          <div class="bg-[#23272f] rounded-xl p-6 shadow" id="onb-table">
+            <div class="text-gray-400 text-sm font-semibold mb-2">
+              Recent LLM Requests
+            </div>
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-sm text-left">
+                <thead>
+                  <tr>
+                    <th class="px-4 py-2 text-gray-300 font-semibold">Time</th>
+                    <th class="px-4 py-2 text-gray-300 font-semibold">User</th>
+                    <th class="px-4 py-2 text-gray-300 font-semibold">Model</th>
+                    <th class="px-4 py-2 text-gray-300 font-semibold">
+                      Latency
+                    </th>
+                    <th class="px-4 py-2 text-gray-300 font-semibold">
+                      Status
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="border-b border-[#23272f]">
+                    <td class="px-4 py-2 text-white">12:01 PM</td>
+                    <td class="px-4 py-2 text-white">Jane Smith</td>
+                    <td class="px-4 py-2 text-gray-400">gpt-4</td>
+                    <td class="px-4 py-2 text-white">1.12s</td>
+                    <td class="px-4 py-2 text-green-400">Success</td>
+                  </tr>
+                  <tr class="border-b border-[#23272f]">
+                    <td class="px-4 py-2 text-white">12:00 PM</td>
+                    <td class="px-4 py-2 text-white">John Doe</td>
+                    <td class="px-4 py-2 text-gray-400">llama-2</td>
+                    <td class="px-4 py-2 text-white">2.01s</td>
+                    <td class="px-4 py-2 text-red-400">Error</td>
+                  </tr>
+                  <tr class="border-b border-[#23272f]">
+                    <td class="px-4 py-2 text-white">11:59 AM</td>
+                    <td class="px-4 py-2 text-white">Alice Lee</td>
+                    <td class="px-4 py-2 text-gray-400">gpt-3.5</td>
+                    <td class="px-4 py-2 text-white">0.98s</td>
+                    <td class="px-4 py-2 text-green-400">Success</td>
+                  </tr>
+                  <tr class="border-b border-[#23272f]">
+                    <td class="px-4 py-2 text-white">11:58 AM</td>
+                    <td class="px-4 py-2 text-white">Bob Kim</td>
+                    <td class="px-4 py-2 text-gray-400">gpt-4</td>
+                    <td class="px-4 py-2 text-white">1.45s</td>
+                    <td class="px-4 py-2 text-green-400">Success</td>
+                  </tr>
+                  <tr>
+                    <td class="px-4 py-2 text-white">11:57 AM</td>
+                    <td class="px-4 py-2 text-white">Maria Chen</td>
+                    <td class="px-4 py-2 text-gray-400">llama-2</td>
+                    <td class="px-4 py-2 text-white">2.34s</td>
+                    <td class="px-4 py-2 text-green-400">Success</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <button
+            class="mt-8 px-8 py-3 bg-white text-black rounded-lg font-semibold shadow-xl hover:bg-gray-100 transition self-end fixed bottom-8 right-8"
+            onclick="startOnboardingFlow(event)"
+          >
+            <span
+              class="animate-pulse absolute inset-0 bg-transparent border-4 rounded-lg border-blue-600"
+            ></span>
+            Start Onboarding
+          </button>
+        </main>
+      </div>
+    </div>
+    <script type="module" src="/demo/demo.js"></script>
+  </body>
+</html>

@@ -1,7 +1,5 @@
-import { startOnboarding } from '../dist/index.js'
-
 window.startOnboardingFlow = function (event) {
-  startOnboarding(
+  PointerJS.startOnboarding(
     [
       {
         element: '#onb-logo',

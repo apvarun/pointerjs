@@ -31,7 +31,7 @@
     "access": "public"
   },
   "scripts": {
-    "lint": "eslint --cache .",
+    "lint": "eslint --cache . --ignore-pattern 'demo/**'",
     "lint:fix": "bun run lint --fix",
     "build": "esbuild src/index.ts --bundle --format=esm --outfile=dist/pointerjs.js --global-name=PointerJS",
     "dev": "tsdown --watch",

@@ -1,5 +1,5 @@
-[![npm version](https://img.shields.io/npm/v/pointerjs.svg)](https://www.npmjs.com/package/@apvarun/pointerjs)
-[![bundle size](https://badgen.net/bundlephobia/minzip/pointerjs)](https://bundlephobia.com/result?p=@apvarun/pointerjs)
+[![npm version](https://img.shields.io/npm/v/@apvarun/pointerjs.svg)](https://www.npmjs.com/package/@apvarun/pointerjs)
+[![bundle size](https://badgen.net/bundlephobia/minzip/@apvarun/pointerjs)](https://bundlephobia.com/package/@apvarun/pointerjs)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 # PointerJS

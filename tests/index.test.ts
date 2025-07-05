@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { Pointer, startOnboarding, type OnboardingStep } from '../src'
 
 describe('Pointer', () => {
@@ -21,7 +21,7 @@ describe('Pointer', () => {
   it('shows and hides the pointer', () => {
     pointer.show()
     // Access the pointer element inside the shadow DOM
-    const pointerEl = pointer['shadowRoot'].querySelector(
+    const pointerEl = (pointer as any).shadowRoot?.querySelector(
       '.pointer',
     ) as HTMLElement
     expect(pointerEl).not.toBeNull()
@@ -43,17 +43,17 @@ describe('startOnboarding', () => {
   beforeEach(() => {
     btn = document.createElement('button')
     btn.id = 'invite-btn'
-    document.body.appendChild(btn)
+    document.body.append(btn)
     profile = document.createElement('button')
     profile.id = 'profile'
-    document.body.appendChild(profile)
+    document.body.append(profile)
   })
   afterEach(() => {
     btn.remove()
     profile.remove()
   })
 
-  it('runs onboarding steps and advances on click', async () => {
+  it('runs onboarding steps and advances on click', () => {
     const steps: OnboardingStep[] = [
       { element: '#invite-btn', note: 'Invite!' },
       { element: '#profile', note: 'Profile!' },
@@ -86,13 +86,14 @@ describe('Pointer customization', () => {
   it('applies custom color to pointer and note', () => {
     pointer = new Pointer({ color: '#FF0000' })
     // Access shadow DOM
-    const style = pointer['shadowRoot'].querySelector('style')
+    const style = (pointer as any).shadowRoot?.querySelector('style')
     expect(style?.textContent).toContain('#FF0000')
   })
 
   it('applies custom fontFamily and fontSize to note', () => {
     pointer = new Pointer({ fontFamily: 'Comic Sans MS', fontSize: '22px' })
-    const style = pointer['shadowRoot'].querySelector('style')
+    // Access shadow DOM through public method or property
+    const style = (pointer as any).shadowRoot?.querySelector('style')
     expect(style?.textContent).toContain('font-family: Comic Sans MS')
     expect(style?.textContent).toContain('font-size: 22px')
   })

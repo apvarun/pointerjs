@@ -1,5 +1,4 @@
-import { Pointer } from './pointer'
-import type { PointerOptions } from './pointer'
+import { Pointer, type PointerOptions } from './pointer'
 
 /**
  * A single onboarding step for PointerJS.

@@ -20,13 +20,13 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "unpkg": "./dist/pointerjs.umd.js",
-  "jsdelivr": "./dist/pointerjs.umd.js",
-  "sideEffects": false,
   "exports": {
     ".": "./dist/index.js",
     "./package.json": "./package.json"
   },
+  "sideEffects": false,
+  "unpkg": "./dist/pointerjs.umd.js",
+  "jsdelivr": "./dist/pointerjs.umd.js",
   "publishConfig": {
     "access": "public"
   },

@@ -51,7 +51,7 @@ export class Pointer {
     this.container.style.height = '100vh'
     this.container.style.pointerEvents = 'none'
     this.container.style.zIndex = '999999'
-    document.body.appendChild(this.container)
+    document.body.append(this.container)
     this.shadowRoot = this.container.attachShadow({ mode: 'open' })
 
     // Inject styles
@@ -97,7 +97,7 @@ export class Pointer {
         transition: background 0.2s, color 0.2s, font-size 0.2s, font-family 0.2s;
       }
     `
-    this.shadowRoot.appendChild(style)
+    this.shadowRoot.append(style)
 
     // Pointer element (SVG icon)
     this.pointerEl = document.createElement('div')
@@ -125,7 +125,7 @@ export class Pointer {
       `
     }
     this.pointerEl.innerHTML = pointerSVG
-    this.shadowRoot.appendChild(this.pointerEl)
+    this.shadowRoot.append(this.pointerEl)
 
     // Note element
     this.noteEl = document.createElement('div')
@@ -135,13 +135,13 @@ export class Pointer {
     this.noteEl.setAttribute('role', 'status')
     this.noteEl.setAttribute('aria-live', 'polite')
     this.noteEl.setAttribute('tabindex', '0')
-    this.shadowRoot.appendChild(this.noteEl)
+    this.shadowRoot.append(this.noteEl)
 
     // Start pointer at center of screen
     this.currentX = window.innerWidth / 2
     this.currentY = window.innerHeight / 2
-    this.pointerEl.style.left = this.currentX + 'px'
-    this.pointerEl.style.top = this.currentY + 'px'
+    this.pointerEl.style.left = `${this.currentX}px`
+    this.pointerEl.style.top = `${this.currentY}px`
   }
 
   /**
@@ -246,16 +246,16 @@ export class Pointer {
       const t = ease(elapsed)
       const curX = startX + deltaX * t
       const curY = startY + deltaY * t
-      pointerEl.style.left = curX + 'px'
-      pointerEl.style.top = curY + 'px'
+      pointerEl.style.left = `${curX}px`
+      pointerEl.style.top = `${curY}px`
       // Flip pointer vertically/horizontally if needed
       let flipX = false
-      let flipY = !!flip
+      const flipY = !!flip
       if (note) {
-        let offsetX = pointerSize + 12
-        let offsetY = pointerSize + 8
+        const offsetX = pointerSize + 12
+        const offsetY = pointerSize + 8
         let noteLeft = curX + offsetX
-        let noteTop = flip ? curY - noteHeight - 12 : curY + offsetY
+        const noteTop = flip ? curY - noteHeight - 12 : curY + offsetY
         // Flip horizontally if overflowing right
         if (noteLeft + noteWidth > window.innerWidth - margin) {
           noteLeft = window.innerWidth - noteWidth - 12
@@ -266,8 +266,8 @@ export class Pointer {
           noteLeft = window.innerWidth - noteWidth - 12
           flipX = true
         }
-        noteEl.style.left = noteLeft + 'px'
-        noteEl.style.top = noteTop + 'px'
+        noteEl.style.left = `${noteLeft}px`
+        noteEl.style.top = `${noteTop}px`
         noteEl.style.display = 'block'
         noteEl.style.transform = ''
         // Set pointer transform
@@ -336,8 +336,8 @@ export class Pointer {
   setInitialPosition(x: number, y: number): void {
     this.currentX = x
     this.currentY = y
-    this.pointerEl.style.left = x + 'px'
-    this.pointerEl.style.top = y + 'px'
+    this.pointerEl.style.left = `${x}px`
+    this.pointerEl.style.top = `${y}px`
   }
 
   /**

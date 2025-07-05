@@ -18,7 +18,7 @@ A tiny JavaScript library to visually guide users with an animated pointer and o
 ```bash
 npm install pointerjs
 # or
-yarn add pointerjs
+bun add pointerjs
 # or
 pnpm add pointerjs
 ```

@@ -1,5 +1,5 @@
 {
-  "name": "pointerjs",
+  "name": "@apvarun/pointerjs",
   "version": "0.1.0",
   "packageManager": "bun@1.2.18",
   "description": "A tiny JS library to visually guide users with an animated pointer and onboarding flow.",

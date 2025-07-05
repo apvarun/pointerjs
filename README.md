@@ -1,5 +1,5 @@
-[![npm version](https://img.shields.io/npm/v/pointerjs.svg)](https://www.npmjs.com/package/pointerjs)
-[![bundle size](https://badgen.net/bundlephobia/minzip/pointerjs)](https://bundlephobia.com/result?p=pointerjs)
+[![npm version](https://img.shields.io/npm/v/pointerjs.svg)](https://www.npmjs.com/package/@apvarun/pointerjs)
+[![bundle size](https://badgen.net/bundlephobia/minzip/pointerjs)](https://bundlephobia.com/result?p=@apvarun/pointerjs)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 # PointerJS
@@ -16,11 +16,11 @@ A tiny JavaScript library to visually guide users with an animated pointer and o
 ## Installation
 
 ```bash
-npm install pointerjs
+npm install @apvarun/pointerjs
 # or
-bun add pointerjs
+bun add @apvarun/pointerjs
 # or
-pnpm add pointerjs
+pnpm add @apvarun/pointerjs
 ```
 
 ## Usage
@@ -28,7 +28,7 @@ pnpm add pointerjs
 ### Basic Onboarding
 
 ```js
-import { startOnboarding } from 'pointerjs'
+import { startOnboarding } from '@apvarun/pointerjs'
 
 startOnboarding([
   { element: '#invite-btn', note: 'Click on the invite team button' },
@@ -58,7 +58,7 @@ startOnboarding([
 ### Using the Pointer Class Directly
 
 ```js
-import { Pointer } from 'pointerjs'
+import { Pointer } from '@apvarun/pointerjs'
 
 const pointer = new Pointer({ color: '#00C853' })
 pointer.moveToElement(document.querySelector('#my-element'), 'Hello!')
@@ -67,7 +67,7 @@ pointer.moveToElement(document.querySelector('#my-element'), 'Hello!')
 Or use via CDN:
 
 ```html
-<script src="https://unpkg.com/pointerjs"></script>
+<script src="https://unpkg.com/@apvarun/pointerjs"></script>
 <script>
   PointerJS.startOnboarding([...])
 </script>
